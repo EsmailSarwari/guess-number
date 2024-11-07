@@ -1,15 +1,14 @@
 'use strict';
 
 // selectors
-
 let secretNumber = document.querySelector('.number');
 let oldScore = document.querySelector('.score');
 let body = document.querySelector('body');
 let highscore = document.querySelector('.highscore');
 
-// rand secret number generator
-let randomSecrectNumber = Math.trunc(Math.random() * 20 + 1);
-secretNumber.textContent = randomSecrectNumber;
+// random secret number generator
+let randomSecretNumber = Math.trunc(Math.random() * 20 + 1);
+secretNumber.textContent = randomSecretNumber;
 
 let newScore = 20;
 let highestScore = 0;
@@ -34,19 +33,14 @@ document.querySelector('.check').addEventListener('click', function () {
     // input controls
     if (newScore > 1) {
         // when user guess higher
-        if (userGuess > randomSecrectNumber) {
-            gameResultMessage('Too High!');
-            newScore--;
-            oldScore.textContent = newScore;
+        userGuess > randomSecretNumber
+            ? gameResultMessage('Too High!')
+            : gameResultMessage('Too Low!');
+        newScore--;
+        oldScore.textContent = newScore;
 
-            // when user guess lower
-        } else if (userGuess < randomSecrectNumber) {
-            gameResultMessage('Too Low!');
-            newScore--;
-            oldScore.textContent = newScore;
-
-            // when, user win the game
-        } else if (userGuess === randomSecrectNumber) {
+        // when, user win the game
+        if (userGuess === randomSecretNumber) {
             if (winner == true) return;
             gameResultMessage('✅ You Won The Game');
             newScore--;
@@ -54,7 +48,7 @@ document.querySelector('.check').addEventListener('click', function () {
 
             body.style.backgroundColor = '#5bb450';
 
-            secretNumber.textContent = randomSecrectNumber;
+            secretNumber.textContent = randomSecretNumber;
 
             highestScore = newScore;
             highscore.textContent = highestScore;
@@ -68,6 +62,10 @@ document.querySelector('.check').addEventListener('click', function () {
         if (newScore == 0) return;
         newScore--;
         oldScore.textContent = newScore;
+
+        highestScore = newScore;
+        highscore.textContent = highestScore;
+
         return;
     }
 });
@@ -79,7 +77,7 @@ function gameResultMessage(message) {
 document.querySelector('.again').addEventListener('click', function () {
     winner = false;
     oldScore.textContent = newScore = 20;
-    randomSecrectNumber = Math.trunc(Math.random() * 20 + 1);
+    randomSecretNumber = Math.trunc(Math.random() * 20 + 1);
 
     document.querySelector('.guess').value = '';
     secretNumber.textContent = '?';
@@ -88,5 +86,5 @@ document.querySelector('.again').addEventListener('click', function () {
 
     body.style.backgroundColor = '#222';
 
-    secretNumber.textContent = randomSecrectNumber;
+    secretNumber.textContent = randomSecretNumber;
 });
